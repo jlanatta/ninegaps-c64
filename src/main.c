@@ -1,6 +1,12 @@
-#include <stdio.h>
+#include <string.h>
+#include "game.h"
+#include "screen.h"
 
-int main()
-{
-    printf("Hello world?");
+static Board board;
+
+int main() {
+    setupScreen();
+    setupBoard(&board);
+    drawBoard(&board);
+    return 0;
 }
