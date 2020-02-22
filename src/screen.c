@@ -22,7 +22,7 @@ void drawBoard(Board *board) {
                 textcolor(2);
             }
             gotoxy(startX + 4 * x, startY + 4 * y);
-            printf("%c", board->tiles[3 * y + x]);
+            printf("%d", board->tiles[3 * y + x]);
         }
     }
 
@@ -52,9 +52,6 @@ void drawBoard(Board *board) {
         gotoxy(startX + 4 * x, startY + 12);
         printf("%d", resultForBoardCol(board, x));
     }
-
-// int resultForBoardRow(Board *board, int row);
-// int resultForBoardCol(Board *board, int col);
 
     gotoxy(0, 0);
 }
