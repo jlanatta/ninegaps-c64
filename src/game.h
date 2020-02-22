@@ -8,5 +8,7 @@ typedef struct TheBoard {
 } Board;
 
 void setupBoard(Board *board);
+int resultForBoardRow(Board *board, int row);
+int resultForBoardCol(Board *board, int col);
 
 #endif //_GAME_H_
