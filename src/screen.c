@@ -12,6 +12,82 @@ void initScreen()
     cursor(1);
 }
 
+typedef enum resultType {
+    Inconclusive,
+    Right,
+    Wrong
+} ResultType;
+
+ResultType resultTypeForRow(Board *board, int row) {
+    int a, b, c;
+    int real, current;
+
+    a = board->playerTiles[3 * row + 0];
+    b = board->playerTiles[3 * row + 1];
+    c = board->playerTiles[3 * row + 2];
+
+    if (a > 0 && b > 0 && c > 0) {
+        real = resultForBoardRow(board, row);
+        current = currentResultForBoardRow(board, row);
+        if (real == current) {
+            return Right;
+        } else {
+            return Wrong;
+        }
+    } else {
+        return Inconclusive;
+    }
+}
+
+ResultType resultTypeForCol(Board *board, int col) {
+    int a, b, c;
+    int real, current;
+
+    a = board->tiles[col + 0];
+    b = board->tiles[col + 3];
+    c = board->tiles[col + 6];
+
+    if (a > 0 && b > 0 && c > 0) {
+        real = resultForBoardCol(board, col);
+        current = currentResultForBoardCol(board, col);
+        if (real == current) {
+            return Right;
+        } else {
+            return Wrong;
+        }
+    } else {
+        return Inconclusive;
+    }
+}
+
+int colorForRow(Board *board, int row) {
+    switch (resultTypeForRow(board, row))
+    {
+    case Inconclusive:
+        return 1;
+    case Right:
+        return 5;
+    case Wrong:
+        return 2;
+    default:
+        return 0;
+    }
+}
+
+int colorForCol(Board *board, int col) {
+    switch (resultTypeForCol(board, col))
+    {
+    case Inconclusive:
+        return 1;
+    case Right:
+        return 5;
+    case Wrong:
+        return 2;
+    default:
+        return 0;
+    }
+}
+
 void drawBoard(Board *board)
 {
     int x, y, tile;
@@ -19,7 +95,8 @@ void drawBoard(Board *board)
     int startY = 6;
     int tileUsed = 0;
 
-    textcolor(1);
+    textcolor(15);
+
     for (x = 0; x < 3; x++)
     {
         for (y = 0; y < 3; y++)
@@ -57,15 +134,22 @@ void drawBoard(Board *board)
 
     for (x = 0; x < 3; x++)
     {
+        textcolor(15);
         gotoxy(startX + 10, startY + 4 * x);
         printf("=");
         gotoxy(startX + 12, startY + 4 * x);
+        textcolor(colorForRow(board, x));
         printf("%d", resultForBoardRow(board, x));
+        
+        textcolor(15);
         gotoxy(startX + 4 * x, startY + 10);
         printf("=");
         gotoxy(startX + 4 * x, startY + 12);
+        textcolor(colorForCol(board, x));
         printf("%d", resultForBoardCol(board, x));
     }
+
+    textcolor(15);
 
     for (x = 1; x < 10; x++)
     {
@@ -87,3 +171,4 @@ void drawBoard(Board *board)
 
     gotoxy(startX + 4 * board->currentX, startY + 4 * board->currentY);
 }
+

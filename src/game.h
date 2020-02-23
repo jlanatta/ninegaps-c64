@@ -13,5 +13,7 @@ typedef struct TheBoard {
 void initBoard(Board *board);
 int resultForBoardRow(Board *board, int row);
 int resultForBoardCol(Board *board, int col);
+int currentResultForBoardRow(Board *board, int row);
+int currentResultForBoardCol(Board *board, int col);
 
 #endif //_GAME_H_

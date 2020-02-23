@@ -59,3 +59,31 @@ int resultForBoardCol(Board *board, int col)
 
     return calculate(calculate(a, b, op1), c, op2);
 }
+
+int currentResultForBoardRow(Board *board, int row)
+{
+    int a, b, c;
+    char op1, op2;
+
+    a = board->playerTiles[3 * row + 0];
+    op1 = board->horizontalOperators[2 * row + 0];
+    b = board->playerTiles[3 * row + 1];
+    op2 = board->horizontalOperators[2 * row + 1];
+    c = board->playerTiles[3 * row + 2];
+
+    return calculate(calculate(a, b, op1), c, op2);
+}
+
+int currentResultForBoardCol(Board *board, int col)
+{
+    int a, b, c;
+    char op1, op2;
+
+    a = board->playerTiles[col + 0];
+    op1 = board->verticalOperators[2 * col + 0];
+    b = board->playerTiles[col + 3];
+    op2 = board->verticalOperators[2 * col + 1];
+    c = board->playerTiles[col + 6];
+
+    return calculate(calculate(a, b, op1), c, op2);
+}
