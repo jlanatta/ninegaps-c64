@@ -2,12 +2,14 @@
 #include "screen.h"
 #include <conio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 static Board board;
 
 int main()
 {
     char c;
+    int x, y;
     int currentX = 0, currentY = 0;
 
     initScreen();
@@ -34,6 +36,17 @@ int main()
         case 'w':
             if (board.currentY > 0)
                 board.currentY--;
+            break;
+        case 'h':
+            textcolor(1);
+            for (x = 0; x < 3; x++)
+            {
+                for (y = 0; y < 3; y++)
+                {
+                    gotoxy(x, y);
+                    printf("%d", board.tiles[3*y+x]);
+                }
+            }
             break;
         default:
             break;

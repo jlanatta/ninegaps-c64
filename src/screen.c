@@ -43,9 +43,9 @@ ResultType resultTypeForCol(Board *board, int col) {
     int a, b, c;
     int real, current;
 
-    a = board->tiles[col + 0];
-    b = board->tiles[col + 3];
-    c = board->tiles[col + 6];
+    a = board->playerTiles[col + 0];
+    b = board->playerTiles[col + 3];
+    c = board->playerTiles[col + 6];
 
     if (a > 0 && b > 0 && c > 0) {
         real = resultForBoardCol(board, col);
@@ -68,7 +68,7 @@ int colorForRow(Board *board, int row) {
     case Right:
         return 5;
     case Wrong:
-        return 2;
+        return 10;
     default:
         return 0;
     }
@@ -82,7 +82,7 @@ int colorForCol(Board *board, int col) {
     case Right:
         return 5;
     case Wrong:
-        return 2;
+        return 10;
     default:
         return 0;
     }
@@ -95,7 +95,7 @@ void drawBoard(Board *board)
     int startY = 6;
     int tileUsed = 0;
 
-    textcolor(15);
+    textcolor(1);
 
     for (x = 0; x < 3; x++)
     {
@@ -113,6 +113,8 @@ void drawBoard(Board *board)
             }
         }
     }
+
+    textcolor(11);
 
     for (x = 0; x < 2; x++)
     {
@@ -134,14 +136,14 @@ void drawBoard(Board *board)
 
     for (x = 0; x < 3; x++)
     {
-        textcolor(15);
+        textcolor(11);
         gotoxy(startX + 10, startY + 4 * x);
         printf("=");
         gotoxy(startX + 12, startY + 4 * x);
         textcolor(colorForRow(board, x));
         printf("%d", resultForBoardRow(board, x));
         
-        textcolor(15);
+        textcolor(11);
         gotoxy(startX + 4 * x, startY + 10);
         printf("=");
         gotoxy(startX + 4 * x, startY + 12);
@@ -149,7 +151,7 @@ void drawBoard(Board *board)
         printf("%d", resultForBoardCol(board, x));
     }
 
-    textcolor(15);
+    textcolor(11);
 
     for (x = 1; x < 10; x++)
     {
