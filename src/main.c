@@ -15,7 +15,7 @@ void showHelp()
     gotoxy(0, 8);
     printf("3. All calculations must be correct to\n   win the game.");
     gotoxy(0, 11);
-    printf("4. Use ASDW keys to move on the board,\n   press the number keys to place the\n   numbers.");
+    printf("4. Use WASD keys to move on the board,\n   press the number keys to place the\n   numbers.");
 
     textcolor(11);
     gotoxy(9, 17);

@@ -30,8 +30,8 @@ void initBoard(Board *board)
     shuffleCharArray(board->horizontalOperators, 6);
     shuffleCharArray(board->verticalOperators, 6);
 
-    board->playerTiles[board->tiles[0]] = board->tiles[board->tiles[0]];
-    board->playerTiles[board->tiles[1]] = board->tiles[board->tiles[1]];
+    board->playerTiles[board->tiles[0]-1] = board->tiles[board->tiles[0]-1];
+    board->playerTiles[board->tiles[1]-1] = board->tiles[board->tiles[1]-1];
     board->currentX = 1;
     board->currentY = 1;
 }
@@ -60,7 +60,7 @@ void processKey(Board *board)
         if (board->currentY > 0)
             board->currentY--;
         break;
-    case ' ':
+    case 20:
         index = 3 * board->currentY + board->currentX;
         board->playerTiles[index] = 0;
         break;
