@@ -12,34 +12,36 @@ void initScreen()
     cursor(1);
 }
 
-typedef enum resultType {
-    Inconclusive,
-    Right,
-    Wrong
-} ResultType;
-
-ResultType resultTypeForRow(Board *board, int row) {
+ResultType resultTypeForRow(Board *board, int row)
+{
     int a, b, c;
     int real, current;
 
     a = board->playerTiles[3 * row + 0];
     b = board->playerTiles[3 * row + 1];
     c = board->playerTiles[3 * row + 2];
+    real = resultForBoardRow(board, row);
+    current = currentResultForBoardRow(board, row);
 
-    if (a > 0 && b > 0 && c > 0) {
-        real = resultForBoardRow(board, row);
-        current = currentResultForBoardRow(board, row);
-        if (real == current) {
+    if (a > 0 && b > 0 && c > 0)
+    {
+        if (real == current)
+        {
             return Right;
-        } else {
+        }
+        else
+        {
             return Wrong;
         }
-    } else {
+    }
+    else
+    {
         return Inconclusive;
     }
 }
 
-ResultType resultTypeForCol(Board *board, int col) {
+ResultType resultTypeForCol(Board *board, int col)
+{
     int a, b, c;
     int real, current;
 
@@ -47,35 +49,39 @@ ResultType resultTypeForCol(Board *board, int col) {
     b = board->playerTiles[col + 3];
     c = board->playerTiles[col + 6];
 
-    if (a > 0 && b > 0 && c > 0) {
+    if (a > 0 && b > 0 && c > 0)
+    {
         real = resultForBoardCol(board, col);
         current = currentResultForBoardCol(board, col);
-        if (real == current) {
+        if (real == current)
+        {
             return Right;
-        } else {
+        }
+        else
+        {
             return Wrong;
         }
-    } else {
+    }
+    else
+    {
         return Inconclusive;
     }
 }
 
-int colorForRow(Board *board, int row) {
-    switch (resultTypeForRow(board, row))
-    {
-    case Inconclusive:
-        return 1;
-    case Right:
-        return 5;
-    case Wrong:
-        return 10;
-    default:
-        return 0;
-    }
+int colorForRow(Board *board, int row)
+{
+    ResultType result = resultTypeForRow(board, row);
+    return colorForResult(result);
 }
 
-int colorForCol(Board *board, int col) {
-    switch (resultTypeForCol(board, col))
+int colorForCol(Board *board, int col)
+{
+    ResultType result = resultTypeForCol(board, col);
+    return colorForResult(result);
+}
+
+int colorForResult(ResultType result) {
+    switch (result)
     {
     case Inconclusive:
         return 1;
@@ -142,7 +148,7 @@ void drawBoard(Board *board)
         gotoxy(startX + 12, startY + 4 * x);
         textcolor(colorForRow(board, x));
         printf("%d", resultForBoardRow(board, x));
-        
+
         textcolor(11);
         gotoxy(startX + 4 * x, startY + 10);
         printf("=");
@@ -157,20 +163,24 @@ void drawBoard(Board *board)
     {
         tileUsed = 0;
 
-        for (y=0;y<10;y++) {
-            if (tileUsed == 0 && board->playerTiles[y] == x) {
+        for (y = 0; y < 10; y++)
+        {
+            if (tileUsed == 0 && board->playerTiles[y] == x)
+            {
                 tileUsed = 1;
             }
         }
 
-        gotoxy(startX + 2*x - 4, startY + 16);
-        if (tileUsed) {
+        gotoxy(startX + 2 * x - 4, startY + 16);
+        if (tileUsed)
+        {
             printf(" ");
-        } else {
+        }
+        else
+        {
             printf("%d", x);
         }
     }
 
     gotoxy(startX + 4 * board->currentX, startY + 4 * board->currentY);
 }
-
