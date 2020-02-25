@@ -15,6 +15,7 @@ void initBoard(Board *board)
     board->currentY = 0;
     board->startX = 13;
     board->startY = 6;
+    board->won = 0;
 
     for (i = 0; i < 9; i++)
     {
@@ -28,70 +29,118 @@ void initBoard(Board *board)
     shuffleIntArray(board->tiles, 9);
     shuffleCharArray(board->horizontalOperators, 6);
     shuffleCharArray(board->verticalOperators, 6);
+
+    board->playerTiles[board->tiles[0]] = board->tiles[board->tiles[0]];
+    board->playerTiles[board->tiles[1]] = board->tiles[board->tiles[1]];
+    board->currentX = 1;
+    board->currentY = 1;
+}
+
+void processKey(Board *board)
+{
+    int x, y;
+    int index;
+    char c = cgetc();
+
+    switch (c)
+    {
+    case 'a':
+        if (board->currentX > 0)
+            board->currentX--;
+        break;
+    case 's':
+        if (board->currentY < 2)
+            board->currentY++;
+        break;
+    case 'd':
+        if (board->currentX < 2)
+            board->currentX++;
+        break;
+    case 'w':
+        if (board->currentY > 0)
+            board->currentY--;
+        break;
+    case ' ':
+        index = 3 * board->currentY + board->currentX;
+        board->playerTiles[index] = 0;
+        break;
+    case 'h':
+        textcolor(1);
+        for (x = 0; x < 3; x++)
+        {
+            for (y = 0; y < 3; y++)
+            {
+                gotoxy(x, y);
+                printf("%d", board->tiles[3 * y + x]);
+            }
+        }
+        break;
+    default:
+        break;
+    }
+
+    if (isdigit(c))
+    {
+        int i;
+        int value = c - 48;
+
+        index = 3 * board->currentY + board->currentX;
+
+        if (value > 0)
+        {
+            for (i = 0; i < 10; i++)
+            {
+                if (board->playerTiles[i] == value)
+                {
+                    board->playerTiles[i] = 0;
+                }
+            }
+
+            board->playerTiles[index] = value;
+        }
+        else 
+        {
+            board->playerTiles[index] = 0;
+        }
+    }
+}
+
+int checkResult(Board *board)
+{
+    int allRows, allCols;
+    allRows = isRowCorrect(board, 0) && isRowCorrect(board, 1) && isRowCorrect(board, 2);
+    allCols = isColCorrect(board, 0) && isColCorrect(board, 1) && isColCorrect(board, 2);
+    board->won = allRows && allCols;
+
+    return board->won;
+}
+
+void showWinnerScreen(Board *board)
+{
+    textcolor(5);
+    gotoxy(15, board->startY + 16);
+    printf("YOU WON!!!");
+
+    textcolor(11);
+    gotoxy(7, board->startY + 17);
+    printf("press any key to continue.");
+
+    cgetc();
 }
 
 void gameLoop(Board *board)
 {
-    int x, y;
-    char c;
-
-    while (c != 'q')
+    while (1)
     {
-        c = cgetc();
-        switch (c)
+        while (!board->won)
         {
-        case 'a':
-            if (board->currentX > 0)
-                board->currentX--;
-            break;
-        case 's':
-            if (board->currentY < 2)
-                board->currentY++;
-            break;
-        case 'd':
-            if (board->currentX < 2)
-                board->currentX++;
-            break;
-        case 'w':
-            if (board->currentY > 0)
-                board->currentY--;
-            break;
-        case 'h':
-            textcolor(1);
-            for (x = 0; x < 3; x++)
-            {
-                for (y = 0; y < 3; y++)
-                {
-                    gotoxy(x, y);
-                    printf("%d", board->tiles[3 * y + x]);
-                }
-            }
-            break;
-        default:
-            break;
+            processKey(board);
+            drawBoard(board);
+            checkResult(board);
         }
-
-        if (isdigit(c))
-        {
-            int i;
-            int value = c - 48;
-            int index = 0;
-
-            if (value > 0)
-            {
-                for (i = 0; i < 10; i++)
-                {
-                    if (board->playerTiles[i] == value)
-                    {
-                        board->playerTiles[i] = 0;
-                    }
-                }
-
-                index = 3 * board->currentY + board->currentX;
-                board->playerTiles[index] = value;
-            }
-        }
-
+        showWinnerScreen(board);
+        initScreen();
+        initBoard(board);
         drawBoard(board);
     }
 }
@@ -219,4 +268,24 @@ int currentResultForBoardCol(Board *board, int col)
     c = board->playerTiles[col + 6];
 
     return calculate(calculate(a, b, op1), c, op2);
+}
+
+int isColCorrect(Board *board, int col)
+{
+    int real, current;
+
+    real = resultForBoardCol(board, col);
+    current = currentResultForBoardCol(board, col);
+
+    return real == current;
+}
+
+int isRowCorrect(Board *board, int row)
+{
+    int real, current;
+
+    real = resultForBoardRow(board, row);
+    current = currentResultForBoardRow(board, row);
+
+    return real == current;
 }

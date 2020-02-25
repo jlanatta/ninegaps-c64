@@ -17,6 +17,7 @@ typedef struct Board {
     int playerTiles[9];
     char horizontalOperators[6];
     char verticalOperators[6];
+    char won;
 } Board;
 
 void initBoard(Board *board);
@@ -27,4 +28,7 @@ int currentResultForBoardRow(Board *board, int row);
 int currentResultForBoardCol(Board *board, int col);
 ResultType resultTypeForRow(Board *board, int row);
 ResultType resultTypeForCol(Board *board, int col);
+int isColCorrect(Board *board, int col);
+int isRowCorrect(Board *board, int row);
+
 #endif //_GAME_H_
