@@ -30,6 +30,13 @@ int colorForCol(Board *board, int col)
     return colorForResult(result);
 }
 
+void drawTitle()
+{
+    textcolor(1);
+    gotoxy(16, 0);
+    printf("NineGaps");
+}
+
 void initScreen()
 {
     bordercolor(0);
@@ -146,8 +153,47 @@ void setCursorOnPlayerPosition(Board *board)
 
 void drawBoard(Board *board)
 {
+    drawTitle();
     drawTiles(board);
     drawOperators(board);
     drawResults(board);
     drawAvailableTiles(board);
+    gotoxy(32, 23);
+    textcolor(11);
+    printf("F1: Help");
+}
+
+void showHelp(int firstTime)
+{
+    clrscr();
+    textcolor(1);
+    drawTitle();
+    gotoxy(0, 3);
+    printf("1. Place numbers from 1 to 9 in the\n   missing gaps.");
+    gotoxy(0, 6);
+    printf("2. All numbers must be used only once.");
+    gotoxy(0, 8);
+    printf("3. All calculations must be correct to\n   win the game.");
+    gotoxy(0, 11);
+    printf("4. Use WASD keys to move on the board,\n   press the number keys to place the\n   numbers.");
+    gotoxy(0, 15);
+    printf("5. Use inst del to remove a number.");
+    gotoxy(0, 17);
+    printf("6. Use F7 to reset the board.");
+    gotoxy(0, 19);
+    printf("6. Use F1 to show this help.");
+
+    textcolor(11);
+    if (firstTime)
+    {
+        gotoxy(9, 23);
+        printf("Press any key to start!");
+    }
+    else
+    {
+        gotoxy(1, 23);
+        printf("Press any key to return to the game.");
+    }
+
+    cgetc();
 }

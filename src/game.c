@@ -78,10 +78,15 @@ void processKey(Board *board)
         if (board->currentY > 0)
             board->currentY--;
         break;
-    case 'r':
+    case 133: // F1
+        showHelp(0);
+        clrscr();
+        drawBoard(board);
+        break;
+    case 136: // F7
         resetBoard(board);
         break;
-    case 20:
+    case 20: // del
         index = 3 * board->currentY + board->currentX;
         board->playerTiles[index] = 0;
         break;
