@@ -3,7 +3,8 @@
 #include <conio.h>
 #include <stdio.h>
 
-int colorForResult(ResultType result) {
+int colorForResult(ResultType result)
+{
     switch (result)
     {
     case Inconclusive:
@@ -38,7 +39,8 @@ void initScreen()
     cursor(1);
 }
 
-void drawTiles(Board *board) {
+void drawTiles(Board *board)
+{
     int x, y, tile;
 
     textcolor(1);
@@ -143,7 +145,7 @@ void setCursorOnPlayerPosition(Board *board)
 }
 
 void drawBoard(Board *board)
-{   
+{
     drawTiles(board);
     drawOperators(board);
     drawResults(board);

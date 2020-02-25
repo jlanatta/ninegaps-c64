@@ -8,7 +8,8 @@ typedef enum ResultType
     Wrong
 } ResultType;
 
-typedef struct Board {
+typedef struct Board
+{
     int currentX;
     int currentY;
     int startX;

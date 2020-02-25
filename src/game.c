@@ -40,9 +40,11 @@ void initBoard(Board *board)
     }
 }
 
-void resetBoard(Board *board) {
+void resetBoard(Board *board)
+{
     int i;
-    for (i=0; i<9; i++) {
+    for (i = 0; i < 9; i++)
+    {
         board->playerTiles[i] = 0;
     }
 
