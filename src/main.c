@@ -29,9 +29,7 @@ int main()
 
     initScreen();
     showHelp();
-    initScreen();
-    initBoard(&board);
-    drawBoard(&board);
+    clrscr();
     gameLoop(&board);
 
     return 0;

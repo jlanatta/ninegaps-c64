@@ -15,12 +15,15 @@ typedef struct Board {
     int startY;
     int tiles[9];
     int playerTiles[9];
+    int hintTiles[9];
+    int hintAmount;
     char horizontalOperators[6];
     char verticalOperators[6];
     char won;
 } Board;
 
 void initBoard(Board *board);
+
 void gameLoop(Board *board);
 int resultForBoardRow(Board *board, int row);
 int resultForBoardCol(Board *board, int col);

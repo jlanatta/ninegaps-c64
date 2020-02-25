@@ -3,20 +3,11 @@
 #include <conio.h>
 #include <stdio.h>
 
-void initScreen()
-{
-    bordercolor(0);
-    bgcolor(0);
-    textcolor(1);
-    clrscr();
-    cursor(1);
-}
-
 int colorForResult(ResultType result) {
     switch (result)
     {
     case Inconclusive:
-        return 1;
+        return 15;
     case Right:
         return 5;
     case Wrong:
@@ -36,6 +27,15 @@ int colorForCol(Board *board, int col)
 {
     ResultType result = resultTypeForCol(board, col);
     return colorForResult(result);
+}
+
+void initScreen()
+{
+    bordercolor(0);
+    bgcolor(0);
+    textcolor(1);
+    clrscr();
+    cursor(1);
 }
 
 void drawTiles(Board *board) {
@@ -110,6 +110,8 @@ void drawAvailableTiles(Board *board)
     int x, y;
     int tileUsed;
 
+    textcolor(14);
+
     for (x = 1; x < 10; x++)
     {
         tileUsed = 0;
@@ -136,6 +138,7 @@ void drawAvailableTiles(Board *board)
 
 void setCursorOnPlayerPosition(Board *board)
 {
+    textcolor(1);
     gotoxy(board->startX + 4 * board->currentX, board->startY + 4 * board->currentY);
 }
 
@@ -145,5 +148,4 @@ void drawBoard(Board *board)
     drawOperators(board);
     drawResults(board);
     drawAvailableTiles(board);
-    setCursorOnPlayerPosition(board);
 }

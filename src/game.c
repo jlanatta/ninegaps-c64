@@ -11,29 +11,45 @@ void initBoard(Board *board)
 {
     int i;
 
-    board->currentX = 0;
-    board->currentY = 0;
+    board->currentX = 1;
+    board->currentY = 1;
     board->startX = 13;
     board->startY = 6;
     board->won = 0;
+    board->hintAmount = 2;
 
     for (i = 0; i < 9; i++)
     {
         board->tiles[i] = i + 1;
         board->playerTiles[i] = 0;
+        board->hintTiles[i] = i;
     }
+
     strcpy(board->horizontalOperators, "++++--");
     strcpy(board->verticalOperators, "++++--");
 
     _randomize();
     shuffleIntArray(board->tiles, 9);
+    shuffleIntArray(board->hintTiles, 9);
     shuffleCharArray(board->horizontalOperators, 6);
     shuffleCharArray(board->verticalOperators, 6);
 
-    board->playerTiles[board->tiles[0]-1] = board->tiles[board->tiles[0]-1];
-    board->playerTiles[board->tiles[1]-1] = board->tiles[board->tiles[1]-1];
-    board->currentX = 1;
-    board->currentY = 1;
+    for (i = 0; i < board->hintAmount; i++)
+    {
+        board->playerTiles[board->hintTiles[i]] = board->tiles[board->hintTiles[i]];
+    }
+}
+
+void resetBoard(Board *board) {
+    int i;
+    for (i=0; i<9; i++) {
+        board->playerTiles[i] = 0;
+    }
+
+    for (i = 0; i < board->hintAmount; i++)
+    {
+        board->playerTiles[board->hintTiles[i]] = board->tiles[board->hintTiles[i]];
+    }
 }
 
 void processKey(Board *board)
@@ -59,6 +75,9 @@ void processKey(Board *board)
     case 'w':
         if (board->currentY > 0)
             board->currentY--;
+        break;
+    case 'r':
+        resetBoard(board);
         break;
     case 20:
         index = 3 * board->currentY + board->currentX;
@@ -98,7 +117,7 @@ void processKey(Board *board)
 
             board->playerTiles[index] = value;
         }
-        else 
+        else
         {
             board->playerTiles[index] = 0;
         }
@@ -132,16 +151,20 @@ void gameLoop(Board *board)
 {
     while (1)
     {
+        clrscr();
+        initBoard(board);
+
         while (!board->won)
         {
-            processKey(board);
             drawBoard(board);
-            checkResult(board);
+            setCursorOnPlayerPosition(board);
+            if (!checkResult(board))
+            {
+                processKey(board);
+            }
         }
+
         showWinnerScreen(board);
-        initScreen();
-        initBoard(board);
-        drawBoard(board);
     }
 }
 
