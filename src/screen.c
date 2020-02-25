@@ -3,13 +3,6 @@
 #include <conio.h>
 #include <stdio.h>
 
-typedef enum resultType
-{
-    Inconclusive,
-    Right,
-    Wrong
-} ResultType;
-
 void initScreen()
 {
     bordercolor(0);
@@ -17,62 +10,6 @@ void initScreen()
     textcolor(1);
     clrscr();
     cursor(1);
-}
-
-ResultType resultTypeForRow(Board *board, int row)
-{
-    int a, b, c;
-    int real, current;
-
-    a = board->playerTiles[3 * row + 0];
-    b = board->playerTiles[3 * row + 1];
-    c = board->playerTiles[3 * row + 2];
-    real = resultForBoardRow(board, row);
-    current = currentResultForBoardRow(board, row);
-
-    if (a > 0 && b > 0 && c > 0)
-    {
-        if (real == current)
-        {
-            return Right;
-        }
-        else
-        {
-            return Wrong;
-        }
-    }
-    else
-    {
-        return Inconclusive;
-    }
-}
-
-ResultType resultTypeForCol(Board *board, int col)
-{
-    int a, b, c;
-    int real, current;
-
-    a = board->playerTiles[col + 0];
-    b = board->playerTiles[col + 3];
-    c = board->playerTiles[col + 6];
-
-    if (a > 0 && b > 0 && c > 0)
-    {
-        real = resultForBoardCol(board, col);
-        current = currentResultForBoardCol(board, col);
-        if (real == current)
-        {
-            return Right;
-        }
-        else
-        {
-            return Wrong;
-        }
-    }
-    else
-    {
-        return Inconclusive;
-    }
 }
 
 int colorForResult(ResultType result) {
