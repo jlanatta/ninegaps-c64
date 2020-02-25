@@ -14,7 +14,7 @@ void initBoard(Board *board)
     board->currentX = 1;
     board->currentY = 1;
     board->startX = 13;
-    board->startY = 6;
+    board->startY = 5;
     board->won = 0;
     board->hintAmount = 2;
 

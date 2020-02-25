@@ -121,6 +121,8 @@ void drawAvailableTiles(Board *board)
 
     textcolor(14);
 
+    gotoy(board->startY + 16);
+
     for (x = 1; x < 10; x++)
     {
         tileUsed = 0;
@@ -133,7 +135,7 @@ void drawAvailableTiles(Board *board)
             }
         }
 
-        gotoxy(board->startX + 2 * x - 4, board->startY + 16);
+        gotox(board->startX + 2 * x - 4);
         if (tileUsed)
         {
             printf(" ");
@@ -158,8 +160,10 @@ void drawBoard(Board *board)
     drawOperators(board);
     drawResults(board);
     drawAvailableTiles(board);
-    gotoxy(32, 23);
     textcolor(11);
+    gotoxy(0, 23);
+    printf(NG_VERSION);
+    gotox(32);
     printf("F1: Help");
 }
 

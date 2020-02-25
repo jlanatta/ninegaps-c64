@@ -1,6 +1,8 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+static const char NG_VERSION [] = "v0.0.3";
+
 typedef enum ResultType
 {
     Inconclusive,
