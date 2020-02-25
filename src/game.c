@@ -15,6 +15,9 @@ void initBoard(Board *board)
     strcpy(board->horizontalOperators, "++++--");
     strcpy(board->verticalOperators, "++++--");
 
+    board->startX = 13;
+    board->startY = 6;
+
     _randomize();
     shuffleIntArray(board->tiles, 9);
     shuffleCharArray(board->horizontalOperators, 6);

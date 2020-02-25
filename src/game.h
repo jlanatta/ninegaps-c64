@@ -8,6 +8,8 @@ typedef struct TheBoard {
     char verticalOperators[6];
     int currentX;
     int currentY;
+    int startX;
+    int startY;
 } Board;
 
 void initBoard(Board *board);
